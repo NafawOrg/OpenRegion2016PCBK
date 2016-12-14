@@ -1,0 +1,79 @@
+<html>
+<head>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    google.charts.load('current', {'packages':['gantt']});
+    google.charts.setOnLoadCallback(drawChart);
+	
+	
+	  
+    function drawChart() {
+
+      var data = new google.visualization.DataTable();
+      data.addColumn('string', 'Task ID');
+      data.addColumn('string', 'Task Name');
+      data.addColumn('string', 'Resource');
+      data.addColumn('date', 'Start Date');
+      data.addColumn('date', 'End Date');
+      data.addColumn('number', 'Duration');
+      data.addColumn('number', 'Percent Complete');
+      data.addColumn('string', 'Dependencies');
+
+      data.addRows([
+	    ['390','390\r\nКартон макулатурный','150',new Date(2016,11,2,0,0),new Date(2016,11,2,2,30),null,0,null],
+['240','240\r\nКартон макулатурный','150',new Date(2016,11,2,2,30),new Date(2016,11,2,7,0),null,0,null],
+['388','388\r\nКартон макулатурный','135',new Date(2016,11,2,8,0),new Date(2016,11,2,20,10),null,0,null],
+['ПрК00000435','ПрК00000435\r\nКартон макулатурный','150',new Date(2016,11,2,21,10),new Date(2016,11,3,2,12),null,0,null],
+['317','317\r\nКартон макулатурный','200',new Date(2016,11,3,3,12),new Date(2016,11,3,7,21),null,0,null],
+['741','741\r\nБумага макулатурная неклеёная','112',new Date(2016,11,3,8,21),new Date(2016,11,3,10,41),null,0,null],
+['371','371\r\nКартон влагопрочный','135',new Date(2016,11,3,11,41),new Date(2016,11,3,12,37),null,0,null],
+['307','307\r\nКартон макулатурный','175',new Date(2016,11,3,13,37),new Date(2016,11,3,14,53),null,0,null],
+['385','385\r\nКартон макулатурный','135',new Date(2016,11,3,15,53),new Date(2016,11,3,21,39),null,0,null],
+['2321','2321\r\nБумага макулатурная клеёная','120',new Date(2016,11,3,22,39),new Date(2016,11,4,1,34),null,0,null],
+['370','370\r\nКартон влагопрочный','120',new Date(2016,11,4,2,34),new Date(2016,11,4,3,25),null,0,null],
+['361','361\r\nКартон макулатурный','120',new Date(2016,11,4,4,25),new Date(2016,11,4,5,16),null,0,null],
+['363','363\r\nКартон влагопрочный','120',new Date(2016,11,4,6,16),new Date(2016,11,4,6,53),null,0,null],
+['242','242\r\nКартон макулатурный','150',new Date(2016,11,4,7,53),new Date(2016,11,4,9,40),null,0,null],
+['ПрК00000084','ПрК00000084\r\nКартон макулатурный','120',new Date(2016,11,4,10,40),new Date(2016,11,4,16,36),null,0,null],
+['358','358\r\nКартон макулатурный','120',new Date(2016,11,4,16,36),new Date(2016,11,4,17,30),null,0,null],
+['2326','2326\r\nБумага макулатурная клеёная','120',new Date(2016,11,4,18,30),new Date(2016,11,4,23,19),null,0,null],
+['384','384\r\nКартон макулатурный','135',new Date(2016,11,5,0,19),new Date(2016,11,5,12,46),null,0,null],
+['2319','2319\r\nБумага макулатурная клеёная','120',new Date(2016,11,5,13,46),new Date(2016,11,5,16,30),null,0,null],
+['394','394\r\nКартон макулатурный','150',new Date(2016,11,5,17,30),new Date(2016,11,5,19,55),null,0,null],
+['744','744\r\nБумага макулатурная неклеёная','112',new Date(2016,11,5,20,55),new Date(2016,11,5,23,53),null,0,null],
+['393','393\r\nКартон макулатурный','150',new Date(2016,11,6,0,53),new Date(2016,11,6,2,7),null,0,null],
+['386','386\r\nКартон макулатурный','135',new Date(2016,11,6,3,7),new Date(2016,11,6,10,49),null,0,null],
+['320','320\r\nКартон макулатурный','200',new Date(2016,11,6,11,49),new Date(2016,11,6,15,30),null,0,null],
+['244','244\r\nКартон макулатурный','150',new Date(2016,11,6,16,30),new Date(2016,11,7,4,6),null,0,null],
+['749','749\r\nБумага макулатурная неклеёная','112',new Date(2016,11,7,5,6),new Date(2016,11,7,6,37),null,0,null],
+['746','746\r\nБумага макулатурная неклеёная','112',new Date(2016,11,7,6,37),new Date(2016,11,7,9,27),null,0,null],
+['2322','2322\r\nБумага макулатурная клеёная','120',new Date(2016,11,7,10,27),new Date(2016,11,7,12,1),null,0,null],
+['2323','2323\r\nБумага макулатурная клеёная','120',new Date(2016,11,7,12,1),new Date(2016,11,7,13,41),null,0,null],
+['ПрК00000424','ПрК00000424\r\nКартон макулатурный','150',new Date(2016,11,7,14,41),new Date(2016,11,7,19,7),null,0,null],
+['2318','2318\r\nБумага макулатурная клеёная','120',new Date(2016,11,7,20,7),new Date(2016,11,8,0,19),null,0,null],
+['302','302\r\nКартон макулатурный','175',new Date(2016,11,8,1,19),new Date(2016,11,8,2,53),null,0,null],
+['376','376\r\nКартон влагопрочный','135',new Date(2016,11,8,3,53),new Date(2016,11,8,5,22),null,0,null],
+['743','743\r\nБумага макулатурная неклеёная','112',new Date(2016,11,8,6,22),new Date(2016,11,8,7,53),null,0,null],
+['247','247\r\nКартон макулатурный','150',new Date(2016,11,8,8,53),new Date(2016,11,8,11,51),null,0,null],
+['310','310\r\nКартон макулатурный','175',new Date(2016,11,8,12,51),new Date(2016,11,8,14,19),null,0,null],
+['ПрК00001506','ПрК00001506\r\nКартон влагопрочный','135',new Date(2016,11,8,15,19),new Date(2016,11,8,18,8),null,0,null],
+['241','241\r\nКартон макулатурный','150',new Date(2016,11,8,19,8),new Date(2016,11,9,0,27),null,0,null],
+['2324','2324\r\nБумага макулатурная клеёная','120',new Date(2016,11,9,1,27),new Date(2016,11,9,3,58),null,0,null],
+['353','353\r\nКартон макулатурный','120',new Date(2016,11,9,4,58),new Date(2016,11,9,7,18),null,0,null]
+      ]);
+
+      var options = {
+        height: 1720,
+		criticalPathEnabled: false       
+      };
+
+      var chart = new google.visualization.Gantt(document.getElementById('chart_div'));
+
+      chart.draw(data, options);
+    }
+  </script>
+</head>
+<body>
+  <div id="chart_div"></div>
+</body>
+</html>

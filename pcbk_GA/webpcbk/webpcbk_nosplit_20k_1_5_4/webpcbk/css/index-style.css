@@ -1,0 +1,33 @@
+html, body { height: 100%; background: #ffffff; }
+header { height: 5%; background: #fafafa; border-bottom: 1px solid #e5e5e5; }
+main { height: 90%; background: ghostwhite; }
+footer { height: 5%; background: gainsboro; }
+section {height: 100%; background: whitesmoke; }
+#timeline { float:left; width:200px; background:#c3c3c3;}
+#production { overflow-x: auto; overflow-y:hidden; background: gainsboro; white-space: nowrap;}
+#information { float: right; width:300px; background: #c3c3c3; }
+
+#machines { height: 98%; padding: 0em 0.5em 0em 0.5em;}
+.machine-container { 
+	overflow:auto; display:inline-block; height:100%; width:300px;background:lightblue;padding-left:1em;
+}
+
+#scale { height:100%; overflow:hidden; padding: 0em 1em; text-align: center; }
+.day:last-child { min-height: 0px; }
+
+.day {
+	min-height: 70px;
+}
+.half-day { /*12h*/
+	min-height: 70px;
+}
+.quorter-day { /*6h*/
+	min-height: 5px;
+}
+.quorter-half-day { /*3h*/
+	min-height: 5px;
+	visibility: hidden;
+}
+.hour { /*1h*/
+	min-height: 5px;
+}

@@ -1,0 +1,53 @@
+html, body { font: 24px Helvetica; height: 100%; background: #fff; }
+* {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+
+.page-wrapper { display: flex; flex-flow: column; height: 100%; }
+.page-wrapper .row { border-bottom: 1px solid #e5e5e5; }
+.page-wrapper .row.header {	flex: 0 1 auto; background: #fafafa }
+.page-wrapper .row.main { flex: 1 1 auto; }
+.page-wrapper .row.footer { flex: 0 1 40px; }
+
+.main {
+	margin: 0px;
+	padding: 0px;
+	display: flex;
+	flex-flow: row;
+}
+
+.main > article, nav, aside {
+	margin: 8px;
+	padding: 5px;
+}
+
+.main > article {
+	border-left: 2px solid #cccc33;
+	border-right: 2px solid #cccc33;
+	/*border-radius: 7pt;*/
+	/*background: #dddd88;*/
+	flex: 3 1 65%;
+	order: 2;
+	max-width: 65%; /* такой же как у flex*/
+}
+
+.main > nav, aside {
+	border-color: #bbbbde;
+	border-style: solid;
+	background: #f0f0f0;
+}
+
+.main > nav {
+	border-right-width: 2px;
+	flex: 1 6 5%;
+	order: 1;
+}
+
+.main > aside {
+	border-left-width: 2px;
+	flex: 1 6 30%;
+	order: 3;
+}

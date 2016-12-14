@@ -1,0 +1,29 @@
+c:\users\pantilimonov\documents\visual studio 2015\Projects\pcbk_GA\pcbk_GA\bin\Debug\pcbk_GA.exe
+c:\users\pantilimonov\documents\visual studio 2015\Projects\pcbk_GA\pcbk_GA\bin\Debug\pcbk_GA.pdb
+c:\users\pantilimonov\documents\visual studio 2015\Projects\pcbk_GA\pcbk_GA\obj\Debug\pcbk_GA.csprojResolveAssemblyReference.cache
+c:\users\pantilimonov\documents\visual studio 2015\Projects\pcbk_GA\pcbk_GA\obj\Debug\pcbk_GA.exe
+c:\users\pantilimonov\documents\visual studio 2015\Projects\pcbk_GA\pcbk_GA\obj\Debug\pcbk_GA.pdb
+C:\Users\Михаил\Desktop\pcbk_GA\pcbk_GA\obj\Debug\pcbk_GA.exe
+C:\Users\Михаил\Desktop\pcbk_GA\pcbk_GA\obj\Debug\pcbk_GA.pdb
+C:\Users\Михаил\Desktop\pcbk_GA\pcbk_GA\bin\Debug\pcbk_GA.exe
+C:\Users\Михаил\Desktop\pcbk_GA\pcbk_GA\bin\Debug\pcbk_GA.pdb
+C:\Users\Михаил\Desktop\pcbk_GA\pcbk_GA\obj\Debug\pcbk_GA.csprojResolveAssemblyReference.cache
+G:\pcbk_GA\pcbk_GA\obj\Debug\pcbk_GA.exe
+G:\pcbk_GA\pcbk_GA\obj\Debug\pcbk_GA.pdb
+G:\pcbk_GA\pcbk_GA\bin\Debug\pcbk_GA.exe
+G:\pcbk_GA\pcbk_GA\bin\Debug\pcbk_GA.pdb
+G:\pcbk_GA\pcbk_GA\obj\Debug\pcbk_GA.csprojResolveAssemblyReference.cache
+H:\pcbk_GA\pcbk_GA\obj\Debug\pcbk_GA.exe
+H:\pcbk_GA\pcbk_GA\obj\Debug\pcbk_GA.pdb
+H:\pcbk_GA\pcbk_GA\bin\Debug\pcbk_GA.exe
+H:\pcbk_GA\pcbk_GA\bin\Debug\pcbk_GA.pdb
+H:\pcbk_GA\pcbk_GA\obj\Debug\pcbk_GA.csprojResolveAssemblyReference.cache
+G:\pcbk_GA\pcbk_GA\bin\Debug\Newtonsoft.Json.dll
+G:\pcbk_GA\pcbk_GA\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Михаил\Desktop\Новая папка\pcbk_GA\pcbk_GA\obj\Debug\pcbk_GA.exe
+C:\Users\Михаил\Desktop\Новая папка\pcbk_GA\pcbk_GA\obj\Debug\pcbk_GA.pdb
+C:\Users\Михаил\Desktop\Новая папка\pcbk_GA\pcbk_GA\bin\Debug\pcbk_GA.exe
+C:\Users\Михаил\Desktop\Новая папка\pcbk_GA\pcbk_GA\bin\Debug\pcbk_GA.pdb
+C:\Users\Михаил\Desktop\Новая папка\pcbk_GA\pcbk_GA\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Михаил\Desktop\Новая папка\pcbk_GA\pcbk_GA\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Михаил\Desktop\Новая папка\pcbk_GA\pcbk_GA\obj\Debug\pcbk_GA.csprojResolveAssemblyReference.cache

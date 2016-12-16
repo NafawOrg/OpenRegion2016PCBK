@@ -30,54 +30,64 @@ namespace pcbk_GA
     {        
         static void Main(string[] args)
         {
-            GA.today = new DateTime( 2016, 11, 2 );
+            Console.WriteLine("APP_PATH: " + Consts.APP_PATH);
+            Console.WriteLine("START_TIME: " + DateTime.Now.ToString(Consts.FULL_TIME_FORMAT));
+
+            Run();
+
+            Console.WriteLine("END_TIME: " + DateTime.UtcNow.ToString(Consts.FULL_TIME_FORMAT));
+            Console.ReadLine();
+        }
+
+        static void Run()
+        {
+            GA.today = new DateTime(2016, 10, 7, 8, 0 , 0); // 07.10.2016 08:00:00 как в файла с обработано...
             DataManager dm = new DataManager();
-            dm.loadConsts(@"G:\ОткрытыйРегион2016\consts.txt");
-            List<Order> orders = dm.loadOrders(@"G:\ОткрытыйРегион2016\(7) Входные данные заказы без дат_.csv");
+            dm.loadConsts(Consts.APP_PATH + @"\input\consts.txt");
+            List<Order> orders = dm.loadOrders( Consts.APP_PATH + @"\input\(7) Входные данные заказы без дат_.csv");
 
             //OrderDelimiter delimiter = new OrderDelimiter( orders );
             //orders = delimiter.TrySplitOders();
-            
+
             GA ga = new GA(dm.Machines, orders, 200, 100, 15);
             GAFitnessEstimator f = new GAFitnessEstimator();
-            ga.FitnessFunction = new GAFitnessFunction(f.FitnessFunction);                                  
+            ga.FitnessFunction = new GAFitnessFunction(f.FitnessFunction);
             ga.FindSolutions();
 
-            var best = ga.m_thisGeneration.Last();            
-            var score = f.FitnessFunction( best.getGenes() );            
+            var best = ga.m_thisGeneration.Last();
+            var score = f.FitnessFunction(best.getGenes());
 
             var humanGenom = Consts.LoadHumanGenom(
-                @"G:\ОткрытыйРегион2016\(3) Обработано Б-21.txt",                
-                @"G:\ОткрытыйРегион2016\(2) Обработано КП-06.txt",                    
-                @"G:\ОткрытыйРегион2016\(4) Обработано Б-2300.txt",
+                Consts.APP_PATH + @"\input\(3) Обработано Б-21.txt",
+                Consts.APP_PATH + @"\input\(2) Обработано КП-06.txt",
+                Consts.APP_PATH + @"\input\(4) Обработано Б-2300.txt",
                 dm,
                 orders
             );
 
             var humanOrders = humanGenom.LoadedMachines
-                .SelectMany( x => x.ordersQueue ).OrderBy( y => y.InternalOrderId ).ToList();
+                .SelectMany(x => x.ordersQueue).OrderBy(y => y.InternalOrderId).ToList();
 
             var test = humanOrders
-                .GroupBy( y => y.InternalOrderId )
-                .Select( z => new { key = z.Key, sum = z.Sum( m => m.Volume ) } )
+                .GroupBy(y => y.InternalOrderId)
+                .Select(z => new { key = z.Key, sum = z.Sum(m => m.Volume) })
                 .ToList();
 
-            var wtf = orders.Where( x => !test.Any( y => y.key == x.InternalOrderId ) ).ToList();
+            var wtf = orders.Where(x => !test.Any(y => y.key == x.InternalOrderId)).ToList();
 
             // В DataManager используем округление т.к. в выходных данных они тоже округляли
             var join = test
-                .Join( orders, x => x.key, y => y.InternalOrderId, (x, y) => new { x.key, x.sum, total = y.Volume } )
-                .Where( x => x.sum != x.total)
+                .Join(orders, x => x.key, y => y.InternalOrderId, (x, y) => new { x.key, x.sum, total = y.Volume })
+                .Where(x => x.sum != x.total)
                 .ToList();
 
-            var humanScore = f.FitnessFunction( humanGenom.getGenes() );
+            var humanScore = f.FitnessFunction(humanGenom.getGenes());
 
             //Export.SequenceTxtReport(best, "bestgenome.txt");
             //var export = f.Export( humanGenom );
             var export = f.Export(best);
-            var result = JsonConvert.SerializeObject( export );
-            Export.ExportHelp.WriteOutput( "var data=" + result, @"G:\pcbk_GA\webpcbk\webpcbk\js\data.js" );
-            
+            var result = JsonConvert.SerializeObject(export);
+            Export.ExportHelp.WriteOutput("var data=" + result, Consts.APP_PATH + @"\webpcbk\webpcbk\js\data.js");
         }
     }
 }

@@ -27,3 +27,10 @@ C:\Users\Михаил\Desktop\Новая папка\pcbk_GA\pcbk_GA\bin\Debug\pc
 C:\Users\Михаил\Desktop\Новая папка\pcbk_GA\pcbk_GA\bin\Debug\Newtonsoft.Json.dll
 C:\Users\Михаил\Desktop\Новая папка\pcbk_GA\pcbk_GA\bin\Debug\Newtonsoft.Json.xml
 C:\Users\Михаил\Desktop\Новая папка\pcbk_GA\pcbk_GA\obj\Debug\pcbk_GA.csprojResolveAssemblyReference.cache
+C:\Users\Михаил\Desktop\Новая папка\OpenRegion2016PCBK\pcbk_GA\pcbk_GA\obj\Debug\pcbk_GA.exe
+C:\Users\Михаил\Desktop\Новая папка\OpenRegion2016PCBK\pcbk_GA\pcbk_GA\obj\Debug\pcbk_GA.pdb
+C:\Users\Михаил\Desktop\Новая папка\OpenRegion2016PCBK\pcbk_GA\pcbk_GA\bin\Debug\pcbk_GA.exe
+C:\Users\Михаил\Desktop\Новая папка\OpenRegion2016PCBK\pcbk_GA\pcbk_GA\bin\Debug\pcbk_GA.pdb
+C:\Users\Михаил\Desktop\Новая папка\OpenRegion2016PCBK\pcbk_GA\pcbk_GA\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Михаил\Desktop\Новая папка\OpenRegion2016PCBK\pcbk_GA\pcbk_GA\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Михаил\Desktop\Новая папка\OpenRegion2016PCBK\pcbk_GA\pcbk_GA\obj\Debug\pcbk_GA.csprojResolveAssemblyReference.cache

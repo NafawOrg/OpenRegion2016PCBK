@@ -67,9 +67,6 @@
     <Compile Include="Solutions\GA\OrderDelimiter.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="temp.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />

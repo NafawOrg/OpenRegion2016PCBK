@@ -1,15 +1,15 @@
-=========Machines=========
+==========Machines==========
 Id,Name,StripWidth,MaxMonthOutput
 0,Б-21,4200,7400
 1,КП-06,4200,5120
 2,Б-2300,2300,5500
-=========ProductTypes=========
+==========ProductTypes==========
 Id,Name
 0,Бумага (любая)
 1,Картон макулатурный
 2,Картон облицовочный
 3,Картон влагопрочный
-=========Products=========
+==========Products==========
 Id,ProductTypeId,Name
 0,0,Бумага целлюлозная клеёная
 1,0,Бумага целлюлозная неклеёная
@@ -18,7 +18,7 @@ Id,ProductTypeId,Name
 4,0,Бумага макулатурная клеёная
 5,2,Картон облицовочный
 6,3,Картон влагопрочный
-=========MachineConstraints=========
+==========MachineConstraints==========
 MachineId,ProductId,Density
 0,0,112
 0,0,125
@@ -44,7 +44,7 @@ MachineId,ProductId,Density
 2,5,170
 2,6,120
 2,6,135
-=========ProductFormats=========
+==========ProductFormats==========
 ProductTypeId,Width
 0,1050
 0,1200

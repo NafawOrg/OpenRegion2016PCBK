@@ -15,7 +15,7 @@ namespace pcbk_GA.Solutions.GA
 
         public readonly int PopulationSize;
         public readonly int Generations;
-        public string FitnessFile = "TEST.txt";
+        public string FitnessFile = "FitnessHistory.txt";
 
         private List<Machine> Machines;
         private List<Order> Orders;
@@ -39,7 +39,7 @@ namespace pcbk_GA.Solutions.GA
             var watch = System.Diagnostics.Stopwatch.StartNew();
 
             if (FitnessFunction == null)
-                throw new ArgumentNullException("Need to supply fitness function");
+                throw new ArgumentNullException("Need to supply fitness function!");
 
             m_thisGeneration = new List<Genome>(PopulationSize);
             m_nextGeneration = new List<Genome>(PopulationSize);            
@@ -85,8 +85,6 @@ namespace pcbk_GA.Solutions.GA
                 g.Fitness = FitnessFunction(g.getGenes());
                 m_thisGeneration.Add(g);
             }
-            // Восстанавливаем первоначальную сортировку, чтобы обращаться по [i] к элементам в смешивание
-            //this.Orders = this.Orders.OrderBy(x => x.InternalOrderId).ToList();
         }
 
         private void CreateNextGeneration()
@@ -97,11 +95,13 @@ namespace pcbk_GA.Solutions.GA
                 parent = m_thisGeneration[i];                
 
                 child = parent.Clone();                
-                child.Mutate(this.Orders);
+                child.Mutate(Orders);
                 child.Fitness = FitnessFunction(child.getGenes());                
                 
-                if (parent.Fitness > child.Fitness) m_nextGeneration.Add(child);
-                else m_nextGeneration.Add(parent);               
+                if (parent.Fitness > child.Fitness) 
+                    m_nextGeneration.Add(child);
+                else 
+                    m_nextGeneration.Add(parent);               
             }
 
             m_thisGeneration.Clear();

@@ -64,7 +64,7 @@
 }
 
 #information > div { display: table; margin: 0 auto; }
-#information .details  { margin-top: 20px; font-family: Hellica; }
+#information .details  { margin-top: 20px; font-family: Hellica; font-size: 0.8em; }
 .details > div { display:table-row; }
 .details > div > p { display: table-cell; padding-right: 10px; text-align: center; }
 .details > div > p:first-child { border-style: solid; border-color: #e5e5e5; border-width: 1px 1px 1px 0px; }

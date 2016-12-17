@@ -16,8 +16,8 @@ Date.prototype.ddmmyyyy = function() {
 	return [dd, mm, this.getFullYear()].join('.');
 };
 Date.prototype.fullformat = function() { 
-	var hours = this.getHours();
-	var minutes = this.getMinutes();
+	var hours = this.getUTCHours();
+	var minutes = this.getUTCMinutes();
 	hours = hours < 10 ? '0'+hours : hours;
 	minutes = minutes < 10 ? '0'+minutes : minutes;
 	var strTime = hours + ':' + minutes;
@@ -212,12 +212,16 @@ function Machine( m_data ) {
 		var offsetY = (startTime - this.timelineStart)/(1000*60*60) * hourPX;
 		var sizeY = (endTime - startTime)/(1000*60*60) * hourPX;
 		
-		var stroke = 2;
-		
-		if ( sizeY < 0 )
-			console.log("WTF");
+		var stroke = 1;		
 		
 		if ( sizeY > stroke ) sizeY -= stroke;
+		
+		if ( sizeY < 0 )
+			console.log("Negative height - " + ord.Id);
+		
+		if ( ord.Width/std - stroke < 0 )
+			console.log("Negative width - " + ord.Id);
+		
 		// stroke 4 рисует 2 пикселя внутрь + 2 наружу => вычитаем из размеров и сдвигаем
 		var rect = this.draw.rect(ord.Width/std - stroke, sizeY).move(ord.OffsetX/std + stroke/2, offsetY + stroke/2);
 		/*

@@ -25,10 +25,10 @@ namespace pcbk_GA.Solutions.GA
         
         public GAFitnessFunction FitnessFunction;
 
-        public GA(List<Machine> machines, List<Order> orders, int populationSize, int generations, int seed)
+        public GA(List<Machine> machines, List<Order> orders, int populationSize, int generations, int seed = 15)
         {
-            this.Machines = machines;
-            this.Orders = orders;
+            Machines = machines;
+            Orders = orders;
             PopulationSize = populationSize;
             Generations = generations;      
             Rand = new Random(seed);
@@ -57,6 +57,7 @@ namespace pcbk_GA.Solutions.GA
             for (int i = 0; i < Generations; i++)
             {                
                 CreateNextGeneration();
+                //CreateNextGeneration_parallel();
                 if (write && outputFitness != null)
                 {
                     double d = m_thisGeneration.Min(x => x.Fitness);                        
@@ -81,14 +82,14 @@ namespace pcbk_GA.Solutions.GA
         {
             for (int i = 0; i < PopulationSize; i++)
             {
-                Genome g = new Genome(this.Machines, this.Orders);
+                Genome g = new Genome(Machines, Orders);
                 g.Fitness = FitnessFunction(g.getGenes());
                 m_thisGeneration.Add(g);
             }
         }
 
         private void CreateNextGeneration()
-        {
+        {            
             for (int i = 0; i < PopulationSize; i++)
             {                                
                 Genome parent, child;
@@ -102,12 +103,40 @@ namespace pcbk_GA.Solutions.GA
                     m_nextGeneration.Add(child);
                 else 
                     m_nextGeneration.Add(parent);               
-            }
+            }            
 
             m_thisGeneration.Clear();
 
-            for (int i = 0; i < PopulationSize; i++)
-                m_thisGeneration.Add(m_nextGeneration[i]);
+            m_thisGeneration.AddRange(m_nextGeneration);
+
+            m_nextGeneration.Clear();
+        }
+
+        private void CreateNextGeneration_parallel()
+        {
+            //TODO:
+            // убрать все глобальные переменные, оставить только thread local variables, в том числе и random т.к. генерация страдает
+            // на выходе совмещать http://stackoverflow.com/questions/10846550/disappointing-performance-with-parallel-for
+            var bag = new System.Collections.Concurrent.ConcurrentBag<Genome>();
+
+            System.Threading.Tasks.Parallel.ForEach(m_thisGeneration, (g) =>
+            {
+                Genome parent, child;
+                parent = g;
+
+                child = parent.Clone();
+                child.Mutate(Orders);
+                child.Fitness = FitnessFunction(child.getGenes());
+
+                if (parent.Fitness > child.Fitness)
+                    bag.Add(child);
+                else
+                    bag.Add(parent);
+            });
+
+            m_thisGeneration.Clear();
+
+            m_thisGeneration.AddRange(bag);
 
             m_nextGeneration.Clear();
         }

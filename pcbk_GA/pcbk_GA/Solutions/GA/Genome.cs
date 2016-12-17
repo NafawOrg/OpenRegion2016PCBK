@@ -12,7 +12,7 @@ namespace pcbk_GA.Solutions.GA
         public List<Machine> Machines;
         public List<LoadedMachine> LoadedMachines;
         public double Fitness;
-    
+
         public Genome() { }
         public Genome(List<Machine> machines, List<Order> orders)
         {

@@ -48,6 +48,8 @@
     <Compile Include="Common\Consts.cs" />
     <Compile Include="Common\DataManager.cs" />
     <Compile Include="Export\JsonStruct.cs" />
+    <Compile Include="Import\DataImport.cs" />
+    <Compile Include="Objects\IOrder.cs" />
     <Compile Include="Objects\LoadedMachine.cs" />
     <Compile Include="Objects\MachineConstraint.cs" />
     <Compile Include="Objects\Machine.cs" />

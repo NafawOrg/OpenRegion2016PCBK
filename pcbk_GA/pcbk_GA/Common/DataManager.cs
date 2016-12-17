@@ -10,7 +10,7 @@ namespace pcbk_GA.Common
 {
     public class DataManager
     {
-        public static int OrderId = 1; // внутренний primary key для заказов
+        public static int UniqueOrderId = 1; // внутренний primary key для заказов
         public List<Product> Products = null;
         public List<Machine> Machines = null;
         public List<ProductFormat> productFormats = null;
@@ -105,13 +105,13 @@ namespace pcbk_GA.Common
             {
                 string[] cells = s.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
                 Order order = new Order(
-                    cells[0].Trim(),
-                    cells[1].Trim(),
-                    Products.First(x => x.Name.ToLower() == cells[3].Trim().ToLower()).Id,
-                    Convert.ToInt32(cells[4]),
-                    Convert.ToInt32(cells[5]),
-                    (float)Math.Round(float.Parse(cells[6]), 0),
-                    GA.today.AddDays( 7 ) //DateTime.Today.AddDays(7)
+                    cells[ 0 ].Trim(),
+                    cells[ 1 ].Trim(),
+                    Products.First(x => x.Name.ToLower() == cells[ 3 ].Trim().ToLower()).Id,
+                    Convert.ToInt32(cells[ 4 ]),
+                    Convert.ToInt32(cells[ 5 ]),
+                    (float)Math.Round(float.Parse(cells[ 6 ]), 0),
+                    GA.today.AddDays(7) //DateTime.Today.AddDays(7)
                     //Convert.ToDateTime(cells[5])
                 );
 
@@ -123,13 +123,13 @@ namespace pcbk_GA.Common
                         .Where(x => x.StripWidth >= order.Width)
                         .Where(
                             y => y.Constraints.Any(
-                                z => z.Product.Id == order.ProductId 
+                                z => z.Product.Id == order.ProductId
                                 && z.Density == order.Density
                             )
                         )
                 );
 
-                if (order.AllowedMachines.Count == 0) 
+                if (order.AllowedMachines.Count == 0)
                     throw new Exception("Не могу найти подходящую машину для производства заказа " + order.Id);
 
                 order.productObj = Products.First(x => x.Id == order.ProductId);

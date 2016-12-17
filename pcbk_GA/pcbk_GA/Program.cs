@@ -1,10 +1,11 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Newtonsoft.Json;
+using pcbk_GA.Import;
 using pcbk_GA.Common;
 using pcbk_GA.Objects;
 using pcbk_GA.Solutions.GA;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 // Продукция зависит от машины
 // плотность зависит от машины и продукции
@@ -35,8 +36,8 @@ namespace pcbk_GA
 
             Run();
 
-            Console.WriteLine("END_TIME: " + DateTime.UtcNow.ToString(Consts.FULL_TIME_FORMAT));
-            Console.ReadLine();
+            Console.WriteLine("END_TIME: " + DateTime.Now.ToString(Consts.FULL_TIME_FORMAT));
+            Console.ReadKey();
         }
 
         static void Run()
@@ -44,12 +45,12 @@ namespace pcbk_GA
             GA.today = new DateTime(2016, 10, 7, 8, 0 , 0); // 07.10.2016 08:00:00 как в файла с обработано...
             DataManager dm = new DataManager();
             dm.loadConsts(Consts.APP_PATH + @"\input\consts.txt");
-            List<Order> orders = dm.loadOrders( Consts.APP_PATH + @"\input\(7) Входные данные заказы без дат_.csv");
+            List<Order> orders = dm.loadOrders(Consts.APP_PATH + @"\input\(7) Входные данные заказы без дат_.csv");
 
             //OrderDelimiter delimiter = new OrderDelimiter( orders );
             //orders = delimiter.TrySplitOders();
 
-            GA ga = new GA(dm.Machines, orders, 200, 100, 15);
+            GA ga = new GA(dm.Machines, orders, 200, 1000);
             GAFitnessEstimator f = new GAFitnessEstimator();
             ga.FitnessFunction = new GAFitnessFunction(f.FitnessFunction);
             ga.FindSolutions();
@@ -57,7 +58,7 @@ namespace pcbk_GA
             var best = ga.m_thisGeneration.Last();
             var score = f.FitnessFunction(best.getGenes());
 
-            var humanGenom = Consts.LoadHumanGenom(
+            var humanGenom = DataImport.LoadHumanGenom(
                 Consts.APP_PATH + @"\input\(3) Обработано Б-21.txt",
                 Consts.APP_PATH + @"\input\(2) Обработано КП-06.txt",
                 Consts.APP_PATH + @"\input\(4) Обработано Б-2300.txt",

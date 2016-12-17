@@ -96,7 +96,7 @@ namespace pcbk_GA.Export
             {
                 for ( int i = 0; i < g.LoadedMachines.Count; i++ )
                 {
-                    writer.Write( "Машина " + g.LoadedMachines[ i ].M.Name + " :" );
+                    writer.Write( "Машина " + g.LoadedMachines[ i ].Name + " :" );
                     writer.WriteLine( "" );
                     int j = 0;
                     foreach ( var order in g.LoadedMachines[ i ].ordersQueue )

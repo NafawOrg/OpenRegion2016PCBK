@@ -5,9 +5,8 @@ using System.Text;
 
 namespace pcbk_GA.Objects
 {
-    public class LoadedMachine
+    public class LoadedMachine : Machine
     {
-        public readonly Machine M;
         public int QueueSize {  get { return ordersQueue.Count; } }
         public LinkedList<Order> ordersQueue;
               
@@ -17,9 +16,9 @@ namespace pcbk_GA.Objects
             }
         }
         public LoadedMachine(Machine m)
+            : base(m)
         {
-            this.M = m;
-            this.ordersQueue = new LinkedList<Order>();            
+            this.ordersQueue = new LinkedList<Order>();
         }
 
         public void AddOrder(Order o)
@@ -60,7 +59,7 @@ namespace pcbk_GA.Objects
 
         public LoadedMachine Clone()
         {
-            return new LoadedMachine( this.M )
+            return new LoadedMachine( this )
             {
                 ordersQueue = new LinkedList<Order>( this.ordersQueue )
             };

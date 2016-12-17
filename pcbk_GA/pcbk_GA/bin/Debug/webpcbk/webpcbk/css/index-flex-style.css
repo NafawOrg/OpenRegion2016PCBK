@@ -20,7 +20,7 @@ html, body { font: 24px Helvetica; height: 100%; background: #fff; }
 }
 
 .main > article, nav, aside {
-	margin: 8px;
+	margin: 5px;
 	padding: 5px;
 }
 
@@ -29,7 +29,7 @@ html, body { font: 24px Helvetica; height: 100%; background: #fff; }
 	border-right: 2px solid #cccc33;
 	/*border-radius: 7pt;*/
 	/*background: #dddd88;*/
-	flex: 3 1 65%;
+	flex: 3 1 70%;
 	order: 2;
 	max-width: 65%; /* такой же как у flex*/
 }
@@ -42,12 +42,12 @@ html, body { font: 24px Helvetica; height: 100%; background: #fff; }
 
 .main > nav {
 	border-right-width: 2px;
-	flex: 1 6 5%;
+	flex: 1 6 2%;
 	order: 1;
 }
 
 .main > aside {
 	border-left-width: 2px;
-	flex: 1 6 30%;
+	flex: 1 6 28%;
 	order: 3;
 }

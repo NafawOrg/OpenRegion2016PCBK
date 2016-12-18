@@ -5,8 +5,9 @@
 	<link rel="stylesheet" type="text/css" href="css/index-flex-style.css">
 	<link rel="stylesheet" type="text/css" href="css/index-flex-content-style.css">
     <script type="text/javascript" src="js/svg.js"></script>
-	<script type="text/javascript" src="js/jquery-3.1.1.js"></script>	
-	<script type="text/javascript" src="js/data.js"></script>
+	<script type="text/javascript" src="js/jquery-3.1.1.js"></script>
+	<script type="text/javascript" src="js/output.js"></script>
+	<script type="text/javascript" src="js/input.js"></script>
 	<script type="text/javascript" src="js/init.js"></script>	
 	<title>ПЦБК</title>
 	<meta charset="utf-8">
@@ -22,8 +23,9 @@
 					<!--<span>article - machines</span>-->
 					<div id="stats">
 					</div>
-					<div id="machines">
+					<div id="machines">						
 					</div>
+					<div id="tooltip">INFO</div>
 				</div>
 			</article>
 			<nav>
@@ -36,7 +38,18 @@
 				<div id="information">
 					<!--<span>aside - information</span>-->
 					<div class="aggregates"></div>
-					<div class="details"></div>
+					<!--<div class="details"></div>-->
+				</div>
+				<div id="tabsContainer">
+					<div class="TabNames">
+						<div class="tab 0">Заказы</div>
+						<div class="tab 1">...</div>
+						<div class="tab 2">...</div>
+					</div>
+					<div class="TabContents">
+						<div class="tab 0">
+						</div>
+					</div>
 				</div>
 			</aside>
 		</div>

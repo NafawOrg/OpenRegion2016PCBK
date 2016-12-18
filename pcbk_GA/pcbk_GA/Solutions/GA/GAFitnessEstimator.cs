@@ -449,6 +449,40 @@ namespace pcbk_GA.Solutions.GA
 
             return result;
         }
+        private List<IOrder> UnionAllOrders(List<Order> orders, List<CompressedOrder> compressions)
+        {
+            List<IOrder> result = new List<IOrder>();
+
+            if (compressions.Count == 0)
+            {
+                orders.ForEach(x => result.Add(x));
+                return result;
+            }
+
+            for (int i = 0, j = 0; i < orders.Count; )
+            {
+                if (j == compressions.Count)
+                {
+                    // Сюда попадем только в том случае если обошли все компрессии и последняя
+                    // компрессия не являлась склейкой двух последних элементов в orders
+                    result.Add(orders[ i ]);
+                    i++;
+                }
+                else if (i < compressions[ j ].pair.leftId) // Идем по обычным заказам
+                {
+                    result.Add(orders[ i ]);
+                    i++;
+                }
+                else // Встретили компрессию
+                {
+                    result.Add(compressions[ j ]);
+                    i = compressions[ j ].pair.rightId + 1;
+                    j++;
+                }
+            }
+
+            return result;
+        }
 
         public double FitnessFunction( List<LoadedMachine> loadedMachines )
         {
@@ -476,7 +510,7 @@ namespace pcbk_GA.Solutions.GA
                 List<CompressionPair> compressions = CollectCompressions(queue, curr_lm);
                 List<CompressedOrder> finalCompressions = ChooseBestCompressions(compressions, queue, curr_lm);
 
-                var finalQueue = ConcatQueueAndCompressions(queue, finalCompressions);
+                var finalQueue = UnionAllOrders(queue, finalCompressions);
                 for ( int k = 0; k < finalQueue.Count; k++ )
                 {
                     IOrder curr = finalQueue[ k ];
@@ -518,42 +552,6 @@ namespace pcbk_GA.Solutions.GA
         /***************
          * EXPORT BLOCK *
         ****************/   
-
-        private List<IOrder> ConcatQueueAndCompressions(List<Order> orders, List<CompressedOrder> compressions)
-        {
-            List<IOrder> result = new List<IOrder>();
-
-            if ( compressions.Count == 0 )
-            {
-                orders.ForEach( x => result.Add( x ) );
-                return result;
-            }
-
-            for (int i = 0, j = 0; i < orders.Count;)
-            {
-                if (j == compressions.Count)
-                {
-                    // Сюда попадем только в том случае если обошли все компрессии и последняя
-                    // компрессия не являелась склейкой двух последних элементов в orders
-                    result.Add(orders[i]);
-                    i++;
-                }
-                else if (i < compressions[j].pair.leftId) // Идем по обычным заказам
-                {
-                    result.Add(orders[i]);
-                    i++;
-                }
-                else // Встретили компрессию
-                {
-                    result.Add(compressions[j]);
-                    i = compressions[j].pair.rightId + 1;
-                    j++;
-                }
-            }
-
-            return result;
-        }
-
         public ResultJson Export(Genome g)
         {            
             var result = new ResultJson();
@@ -574,7 +572,7 @@ namespace pcbk_GA.Solutions.GA
                 int deadlineHours = 0;
                 int readjustmentHours = 0;
                 DateTime finish;
-                var finalQueue = ConcatQueueAndCompressions(queue, finalCompressions);
+                var finalQueue = UnionAllOrders(queue, finalCompressions);
                 for( int k = 0; k < finalQueue.Count; k++)
                 {
                     IOrder curr = finalQueue[k];

@@ -31,13 +31,13 @@ html, body { font: 24px Helvetica; height: 100%; background: #fff; }
 	/*background: #dddd88;*/
 	flex: 3 1 70%;
 	order: 2;
-	max-width: 65%; /* такой же как у flex*/
+	max-width: 70%; /* такой же как у flex*/
 }
 
 .main > nav, aside {
 	border-color: #bbbbde;
 	border-style: solid;
-	background: #f0f0f0;
+	background: #ffffff;
 }
 
 .main > nav {
@@ -50,4 +50,14 @@ html, body { font: 24px Helvetica; height: 100%; background: #fff; }
 	border-left-width: 2px;
 	flex: 1 6 28%;
 	order: 3;
+	display: flex;
+	flex-direction: column;
 }
+
+#tabsContainer { display:flex; flex-direction: column; flex: 1 1; }
+.TabNames { 
+	display: flex; flex-direction: row; 
+	border: 1px solid #eeece1;
+    background: #fafafa; }
+.tab { flex-grow:1; flex-basis:0; text-align: center;}
+.TabContents { flex: 1 0; overflow: auto; }

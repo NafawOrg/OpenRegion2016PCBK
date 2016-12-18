@@ -50,7 +50,7 @@ namespace pcbk_GA
             //OrderDelimiter delimiter = new OrderDelimiter( orders );
             //orders = delimiter.TrySplitOders();
 
-            GA ga = new GA(dm.Machines, orders, 200, 1000);
+            GA ga = new GA(dm.Machines, orders, 200, 200);
             GAFitnessEstimator f = new GAFitnessEstimator();
             ga.FitnessFunction = new GAFitnessFunction(f.FitnessFunction);
             ga.FindSolutions();
@@ -85,10 +85,13 @@ namespace pcbk_GA
             var humanScore = f.FitnessFunction(humanGenom.getGenes());
 
             //Export.SequenceTxtReport(best, "bestgenome.txt");
-            //var export = f.Export( humanGenom );
+            //var export = f.Export(humanGenom);
             var export = f.Export(best);
-            var result = JsonConvert.SerializeObject(export);
-            Export.ExportHelp.WriteOutput("var data=" + result, Consts.APP_PATH + @"\webpcbk\webpcbk\js\data.js");
+            var output = JsonConvert.SerializeObject(export);
+            Export.ExportHelp.WriteOutput("var data=" + output, Consts.APP_PATH + @"\webpcbk\webpcbk\js\output.js");
+
+            var input = JsonConvert.SerializeObject(orders);
+            Export.ExportHelp.WriteOutput("var orders=" + input, Consts.APP_PATH + @"\webpcbk\webpcbk\js\input.js");
         }
     }
 }

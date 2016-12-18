@@ -2,7 +2,7 @@
 	height: 100%; overflow-x: auto; /*overflow-y:hidden;*/ white-space: nowrap;
 }
 #timeline { height: 100%; overflow:hidden; }
-#machines { height: calc(100% - 100px); /*padding: 0em 0.5em 0em 0.5em;*/}
+#machines { height: calc(100% - 100px); /*position: relative;  для tooltip offset */}
 .machine-stats {
 	display: inline-block;
 	height: 63px;
@@ -36,6 +36,7 @@
 }
 
 .scale { 
+	cursor: default;
 	width:140px;
 	float:left; 
 	padding: 0em 1em; 
@@ -64,8 +65,51 @@
 }
 
 #information > div { display: table; margin: 0 auto; }
-#information .details  { margin-top: 20px; font-family: Hellica; font-size: 0.8em; }
+/*#information .details  { margin-top: 20px; font-family: Hellica; font-size: 0.8em; }
 .details > div { display:table-row; }
 .details > div > p { display: table-cell; padding-right: 10px; text-align: center; }
 .details > div > p:first-child { border-style: solid; border-color: #e5e5e5; border-width: 1px 1px 1px 0px; }
-.details > div > p:last-child { border-style: solid; border-color: #e5e5e5; border-width: 1px 0px 1px 0px; }
+.details > div > p:last-child { border-style: solid; border-color: #e5e5e5; border-width: 1px 0px 1px 0px; }*/
+
+
+#tooltip {
+	position: absolute;
+	display: flex;
+	flex-flow: column;
+	background: grey;
+	word-wrap: normal;
+	white-space: normal;
+	font-family: Hellica; font-size: 0.7em;
+	border: 1px solid #bbbbde;
+	background: #f0f0f0;
+	box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+}
+#tooltip > div { display:inherit; }
+#tooltip > div > p { display: block; text-align: center; }
+#tooltip > div > p:first-child { border-style: solid; border-color: #e5e5e5; border-width: 1px 1px 1px 0px; width: 115px; }
+#tooltip > div > p:last-child { border-style: solid; border-color: #e5e5e5; border-width: 1px 0px 1px 0px; width: 135px; }
+
+.order { cursor: pointer; font-size: 0.7em; word-spacing: normal; word-break: break-all; display: flex; }
+.order > div { flex: 1 1; }
+.ordInfo { display: flex; flex-direction: row; }
+.ordInfo > div:nth-child(1) { width: 60px; }
+.ordInfo > div:nth-child(2) { flex: 1 1; }
+.ordInfo > div:nth-child(3) { width: 40px; }
+.order:before { 
+	content: "";
+    margin: 5px;
+    height: 10px;
+    width: 10px;
+    background: #bbbbde;
+	float:left;
+}
+/*.order:hover:before { height: 150px; }*/
+.order:hover:before { background: #5151ce; }
+/*.order:hover:before { height: 150px; }*/
+.parts > div { display:inline-block; margin-right: 10px; }
+.parts:hover { background: #f0f0f0; }
+
+
+
+
+

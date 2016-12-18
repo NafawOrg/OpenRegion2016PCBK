@@ -34,6 +34,23 @@ String.prototype.format = String.prototype.f = function() {
     }
     return s;
 };
+Array.prototype.any = function( attrName, propValue) {
+	for( var i = 0; i < this.length; i++ ) {
+		if ( this[i][attrName] == propValue )
+			return true;
+	}
+	return false;
+}
+Array.prototype.first = function( attrName, propValue) {
+	for( var i = 0; i < this.length; i++ ) {
+		if ( this[i][attrName] == propValue )
+			return this[i];
+	}
+	return undefined;
+}
+Array.prototype.pushArray = function(arr) {
+    this.push.apply(this, arr);
+};
 
 var std = 10; // делим ширину машин\заказов на эту константу
 var hourPX = 30; // такой же как и line-height в классе .scale
@@ -48,6 +65,7 @@ $(document).ready(function(){
 	{
 		var m = data.Machines[i];
 		var domM = new Machine(m);
+		m.domM = domM;
 		waste += m.WasteVolume;
 		readjustments += m.ReadjustmentHours;
 		deadline += m.DeadlineHours;
@@ -67,6 +85,106 @@ $(document).ready(function(){
 	"</div>").format( "Итого", waste, readjustments, deadline );
 	
 	$totalBlock.append(totalTemplateHTML);
+	
+	for( var i = 0; i < orders.length; i++ ) 
+	{
+		var order = orders[i];
+		// выбираем машины на которых может обрабатываться заказ
+		var searchMachines = data.Machines.filter(function(e) { return order.AllowedMachines.any("Id", e.Id); });
+		
+		/*
+		Order = 1,
+        Waste = 2,
+        Readjustment = 3,
+        Maintenance = 4 
+		*/
+		var orderParts = [];
+		searchMachines.forEach(function(m) {			
+			var temp = m.Orders
+				.filter(function(e) {
+					switch(e.Type) {
+						case 1: return e.Id == order.Id;
+						case 2: return e.Id.indexOf(order.Id + "_") == 0 || e.Id.indexOf("_" + order.Id + "W") != -1;
+						case 3: return e.Id.indexOf(order.Id + "_") == 0 || e.Id.indexOf("_" + order.Id + "R") != -1;
+						default: console.warn("Mystic order type");
+					}
+				});
+			if ( temp.length > 0 )
+				orderParts.push({ machineId: m.Id, orders: temp });
+		});
+		
+		var orderTemplateHTML =
+		("<div class='order row'>" +
+			"<div>" +
+			"<div class='ordInfo'><div>{0}</div><div>{1}</div><div>{2}т.</div><div>{3}</div></div>" +
+			"<div class='ordParts'></div>" +
+			"</div>" +
+		"</div>")
+		.format(order.Id, order.Consumer, order.Volume, new Date(order.Deadline).fullformat());
+		
+		var orderObj = $(orderTemplateHTML);
+		orderObj.find('.ordInfo').on("click", { parts: orderParts }, function(event) {			
+			var jqThis = $(this);
+			
+			if ( jqThis.attr("loaded") != "true" ) {
+				var parts = event.data.parts;
+				for( var i = 0; i < parts.length; i++ )
+				{
+					var template = "<div><div class='row'>{0}</div><div>{1}</div></div>";
+					var ordersTemplate = 
+					"<div class='parts' machine='{3}' ordId='{4}'><div>{0}</div><div>{1}</div><div>{2}</div></div>";
+					var temp = "";
+					for ( var j = 0; j < parts[i].orders.length; j++ )
+					{
+						var type = parts[i].orders[j].Type;
+						
+						if ( type != 1 ) continue;
+						
+						temp += ordersTemplate.format(
+							parts[i].orders[j].Volume,
+							new Date(parts[i].orders[j].Start).fullformat(),
+							new Date(parts[i].orders[j].End).fullformat(),
+							parts[i].machineId,
+							parts[i].orders[j].Id
+						);	
+					}
+					
+					//if ( temp != "" ) {
+						var obj = template.format(data.Machines[parts[i].machineId].Name, temp);
+						jqThis.parent().find(".ordParts").append(obj);
+					//}
+				}
+				jqThis.attr("loaded", "true");
+				jqThis.parent().find(".ordParts").show();
+				
+				jqThis.parent().find(".parts").click(function() {
+					var jqObj = $(this);
+					var machineId = jqObj.attr('machine');
+					var orderId = jqObj.attr('ordId');
+					
+					var order = data.Machines[machineId].Orders.first("Id", orderId);
+					
+					var offset = new Date(order.Start) - 
+						new Date(data.Machines[machineId].TimelineStart);
+					
+					offset = offset/(1000*60*60) * hourPX;
+					
+					var jqMachine = $("#machine-" + machineId);
+					var orderRects = jqMachine.find("rect[orderId=" + orderId + "]")
+						 .each(function() { $(this).css({"stroke":"red"}); });
+					jqMachine.scrollTop(offset);
+				});
+			}
+			else {
+				if (jqThis.parent().find(".ordParts").css("display") == "none")
+					jqThis.parent().find(".ordParts").show();
+				else
+					jqThis.parent().find(".ordParts").hide();
+			}
+		});
+		
+		$(".TabContents .tab").append(orderObj);		
+	}	
 	
 });
 
@@ -170,8 +288,11 @@ function Machine( m_data ) {
 	this.draw = SVG('machine-' + id).size(m_data.StripWidth/std, $scale.height());
 	
 	var that = this;
-	var orderHover = function() {
-		var id = this.attr('orderId');
+	this.prevDate = new Date().getTime();
+
+	var orderMouseIn = function() {
+		//console.log(event.offsetX + " : " + event.offsetY);
+		var id = this.attr('orderArrId');
 		var order = that.data.Orders[id];
 		
 		var id = order.Id;
@@ -200,8 +321,42 @@ function Machine( m_data ) {
 		finalTemplate += template.format("Объём",volume);
 		finalTemplate += template.format("Формат",width);
 		
-		$(".details").html(finalTemplate);
+		//$(".details").html(finalTemplate);
+		$("#tooltip").html(finalTemplate);
+		
+		// TODO: FIX, CPU INTENSIVE
+		$("#production").mousemove(function() {
+		
+			//var date = new Date().getTime();
+			//if(date - that.prevDate > 50){
+				// your code goes here
+				$("#tooltip").css({"top": event.clientY, "left":event.clientX + 5 });
+				$("body").css({"overflow":"hidden"});
+				//that.prevDate = date;
+			//}
+			
+			//$("#tooltip").css({"top": event.clientY, "left":event.clientX + 5 });
+			//$("body").css({"overflow":"hidden"});
+			// todo scroll or smart position
+			// или просто overflow-y: none; у документа задать, не будет прыжков...
+		});
+		$("#tooltip").show();
 		this.stroke({ color: '#441414' });
+	}
+	
+	var orderMouseOut = function() {
+		$(".details").empty(); 
+		var id = this.attr('orderArrId');
+		var order = that.data.Orders[id];
+		if ( order.Type == 3 )
+			this.stroke({ color: '#f0f0f0' }); 
+		else
+			this.stroke({ color: '#7f829e' }); 
+		
+		$("#production").off("mousemove");
+		$("body").css({"overflow":"auto"});
+		$(this.node).css("stroke","");
+		$("#tooltip").hide();
 	}
 	
 	for( var j = 0; j < m_data.Orders.length; j++ )	{
@@ -236,18 +391,10 @@ function Machine( m_data ) {
 			case 3: rect.attr({ fill: '#646682' }).stroke({ color: '#f0f0f0', width: stroke }); break;
 			case 4: break;
 		}
-		rect.attr({ orderId: j });
+		rect.attr({ orderArrId: j, orderId: ord.Id });		
 		
-		rect.mouseover(orderHover);
-		rect.mouseout(function() { 
-			$(".details").empty(); 
-			var id = this.attr('orderId');
-			var order = that.data.Orders[id];
-			if ( order.Type == 3 )
-				this.stroke({ color: '#f0f0f0' }); 
-			else
-				this.stroke({ color: '#7f829e' }); 
-		});
+		rect.mouseover(orderMouseIn);
+		rect.mouseout(orderMouseOut); 
 	}
 	
 	/*-----------------------------------------------------------------------*/	
@@ -267,6 +414,5 @@ function Machine( m_data ) {
 		m_data.ReadjustmentHours, m_data.DeadlineHours
 	);
 	
-	$stats.append(statsTemplateHTML);
-	
+	$stats.append(statsTemplateHTML);	
 }

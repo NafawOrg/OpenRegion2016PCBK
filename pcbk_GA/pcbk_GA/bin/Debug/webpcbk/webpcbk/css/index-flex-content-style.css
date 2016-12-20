@@ -91,7 +91,8 @@
 
 .order { cursor: pointer; font-size: 0.7em; word-spacing: normal; word-break: break-all; display: flex; }
 .order > div { flex: 1 1; }
-.ordInfo { display: flex; flex-direction: row; }
+.ordInfo { display: flex; flex-direction: row; color: rgba(0, 0, 0, 0.6); }
+.ordInfo.selected { color: rgba(0, 0, 0, 1); }
 .ordInfo > div:nth-child(1) { width: 60px; }
 .ordInfo > div:nth-child(2) { flex: 1 1; }
 .ordInfo > div:nth-child(3) { width: 40px; }
@@ -105,10 +106,11 @@
 }
 /*.order:hover:before { height: 150px; }*/
 .order:hover:before { background: #5151ce; }
+.order:hover { border-color: #868686; }
 /*.order:hover:before { height: 150px; }*/
 .parts > div { display:inline-block; margin-right: 10px; }
 .parts:hover { background: #f0f0f0; }
-
+.parts.selected { background: rgba(204, 204, 51, 0.45); }
 
 
 

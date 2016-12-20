@@ -21,7 +21,7 @@ Date.prototype.fullformat = function() {
 	hours = hours < 10 ? '0'+hours : hours;
 	minutes = minutes < 10 ? '0'+minutes : minutes;
 	var strTime = hours + ':' + minutes;
-	var day = this.getDate();
+	var day = this.getUTCDate();
 	day = day < 10 ? '0'+day : day;
 	return day + "/" + (this.getMonth()+1) + "/" + this.getFullYear() + "  " + strTime;
 };
@@ -51,6 +51,7 @@ Array.prototype.first = function( attrName, propValue) {
 Array.prototype.pushArray = function(arr) {
     this.push.apply(this, arr);
 };
+
 
 var std = 10; // делим ширину машин\заказов на эту константу
 var hourPX = 30; // такой же как и line-height в классе .scale
@@ -101,6 +102,10 @@ $(document).ready(function(){
 		var orderParts = [];
 		searchMachines.forEach(function(m) {			
 			var temp = m.Orders
+				.map(function(q, index) {
+					q.arrIndex = index;
+					return q;
+				})
 				.filter(function(e) {
 					switch(e.Type) {
 						case 1: return e.Id == order.Id;
@@ -145,41 +150,59 @@ $(document).ready(function(){
 							new Date(parts[i].orders[j].Start).fullformat(),
 							new Date(parts[i].orders[j].End).fullformat(),
 							parts[i].machineId,
-							parts[i].orders[j].Id
+							parts[i].orders[j].arrIndex
 						);	
 					}
 					
-					//if ( temp != "" ) {
-						var obj = template.format(data.Machines[parts[i].machineId].Name, temp);
-						jqThis.parent().find(".ordParts").append(obj);
-					//}
+					var obj = template.format(data.Machines[parts[i].machineId].Name, temp);
+					jqThis.parent().find(".ordParts").append(obj);
 				}
 				jqThis.attr("loaded", "true");
+				jqThis.addClass("selected");
 				jqThis.parent().find(".ordParts").show();
 				
 				jqThis.parent().find(".parts").click(function() {
 					var jqObj = $(this);
 					var machineId = jqObj.attr('machine');
-					var orderId = jqObj.attr('ordId');
-					
-					var order = data.Machines[machineId].Orders.first("Id", orderId);
-					
-					var offset = new Date(order.Start) - 
-						new Date(data.Machines[machineId].TimelineStart);
-					
-					offset = offset/(1000*60*60) * hourPX;
-					
+					var orderArrIndex = jqObj.attr('ordId');
 					var jqMachine = $("#machine-" + machineId);
-					var orderRects = jqMachine.find("rect[orderId=" + orderId + "]")
-						 .each(function() { $(this).css({"stroke":"red"}); });
-					jqMachine.scrollTop(offset);
+					
+					if ( jqObj.hasClass("selected") ) {
+						jqObj.removeClass("selected");
+						var orderRects = jqMachine.find("rect[orderArrId=" + orderArrIndex + "]")
+							 .each(function() { $(this).css({"stroke":""}); });
+					} else {	
+						jqObj.addClass("selected");
+						var orderRects = jqMachine.find("rect[orderArrId=" + orderArrIndex + "]")
+							 .each(function() { $(this).css({"stroke":"red"}); });
+							 
+						var order = data.Machines[machineId].Orders[orderArrIndex];					
+						var offset = new Date(order.Start) - 
+							new Date(data.Machines[machineId].TimelineStart);
+						
+						offset = offset/(1000*60*60) * hourPX;
+						jqMachine.scrollTop(offset - 20);
+						
+						//TODO: автоперемещение по горизонтале
+						//var totalWidth = 0;
+						//var containerWidth = $("#production").width();
+						//$("#machines").children().each(function() {
+						//	  totalWidth = totalWidth + $(this).width();
+						//});
+						
+						//$("#production").scrollLeft( $("#production").width() - jqMachine.offset().left );
+						//$("#production").scrollTo(jqMachine);
+					}					
 				});
 			}
 			else {
-				if (jqThis.parent().find(".ordParts").css("display") == "none")
+				if (jqThis.parent().find(".ordParts").css("display") == "none") {
+					jqThis.addClass("selected");
 					jqThis.parent().find(".ordParts").show();
-				else
+				} else {
+					jqThis.removeClass("selected");
 					jqThis.parent().find(".ordParts").hide();
+				}
 			}
 		});
 		
@@ -355,7 +378,7 @@ function Machine( m_data ) {
 		
 		$("#production").off("mousemove");
 		$("body").css({"overflow":"auto"});
-		$(this.node).css("stroke","");
+		//$(this.node).css("stroke","");
 		$("#tooltip").hide();
 	}
 	
@@ -379,6 +402,10 @@ function Machine( m_data ) {
 		
 		// stroke 4 рисует 2 пикселя внутрь + 2 наружу => вычитаем из размеров и сдвигаем
 		var rect = this.draw.rect(ord.Width/std - stroke, sizeY).move(ord.OffsetX/std + stroke/2, offsetY + stroke/2);
+		
+		if ( sizeY > 14 && ord.Type == 1 )
+			var text = this.draw.text(ord.Consumer).font({ size: "12px"}).move(ord.OffsetX/std + stroke/2, offsetY + stroke/2);
+		
 		/*
 		Order = 1, rgb(196,189,151) rgb(127,127,127) d8cfa0
         Waste = 2, rgb(127,127,127)
